@@ -15,8 +15,8 @@ namespace ImageStitcher
         static void Main(string[] args)
         {
             var filePaths = Directory.GetFiles(args[0], "*.tif");
-            var images = filePaths.Select(filePath => new Image<Gray, byte>(filePath)).ToList();
-            using var resultImage = new Image<Gray, byte>(1000, 1000);
+            var images = filePaths.Select(filePath => new Image<Rgb, byte>(filePath)).ToList();
+            using var resultImage = new Image<Rgb, byte>(1000, 1000);
 
             Console.Write("Stitching...");
             var stopwatch = Stopwatch.StartNew();
@@ -32,7 +32,7 @@ namespace ImageStitcher
             }
         }
 
-        private static void StitchImages(List<Image<Gray, byte>> images, Image<Gray, byte> resultImage)
+        private static void StitchImages(List<Image<Rgb, byte>> images, Image<Rgb, byte> resultImage)
         {
             using var stitcher = new Stitcher(Stitcher.Mode.Scans);
             stitcher.Stitch(new VectorOfMat(images.Select(image => image.Mat).ToArray()), resultImage.Mat);
