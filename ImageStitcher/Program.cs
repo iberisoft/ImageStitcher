@@ -2,7 +2,9 @@
 using Emgu.CV.Stitching;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -16,7 +18,11 @@ namespace ImageStitcher
             var images = filePaths.Select(filePath => new Image<Gray, byte>(filePath)).ToList();
             using var resultImage = new Image<Gray, byte>(1000, 1000);
 
+            Console.Write("Stitching...");
+            var stopwatch = Stopwatch.StartNew();
             StitchImages(images, resultImage);
+            stopwatch.Stop();
+            Console.WriteLine($" {stopwatch.ElapsedMilliseconds} ms");
 
             foreach (var image in images)
             {
