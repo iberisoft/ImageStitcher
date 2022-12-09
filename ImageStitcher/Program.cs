@@ -24,6 +24,8 @@ namespace ImageStitcher
             stopwatch.Stop();
             Console.WriteLine($" {stopwatch.ElapsedMilliseconds} ms");
 
+            resultImage.Save("result.tif");
+
             foreach (var image in images)
             {
                 image.Dispose();
