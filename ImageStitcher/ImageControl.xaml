@@ -1,0 +1,10 @@
+﻿<UserControl x:Class="ImageStitcher.ImageControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Image Name="ImageView" Cursor="Cross" MouseDown="ImageView_MouseDown" MouseMove="ImageView_MouseMove" MouseUp="ImageView_MouseUp" />
+        <Canvas>
+            <Rectangle Name="RoiRectangle" Stroke="Yellow" StrokeThickness="2" Visibility="Hidden" IsHitTestVisible="False" />
+        </Canvas>
+    </Grid>
+</UserControl>
