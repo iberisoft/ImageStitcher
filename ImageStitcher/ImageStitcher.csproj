@@ -3,6 +3,10 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
+    <Version>0.1.0</Version>
+    <Copyright>Copyright © 2024</Copyright>
+    <Company>Iberis Software</Company>
+    <Authors>Pavel Zaytsev</Authors>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
