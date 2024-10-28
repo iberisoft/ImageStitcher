@@ -25,7 +25,7 @@ static class Engine
         PythonEngine.Shutdown();
     }
 
-    public static string StitchImages(string sourceImagePath1, Rect? roi1, string sourceImagePath2, Rect? roi2, string resultImagePath)
+    public static string StitchImages(string sourceImagePath1, Rect roi1, string sourceImagePath2, Rect roi2, string resultImagePath)
     {
         using (Py.GIL())
         {
@@ -45,21 +45,14 @@ static class Engine
         }
     }
 
-    private static PyObject ConvertRect(Rect? rect)
+    private static PyObject ConvertRect(Rect rect)
     {
-        if (rect != null)
-        {
-            var dict = new PyDict();
-            dict["x"] = new PyInt((int)rect.Value.X);
-            dict["y"] = new PyInt((int)rect.Value.Y);
-            dict["width"] = new PyInt((int)rect.Value.Width);
-            dict["height"] = new PyInt((int)rect.Value.Height);
-            return dict;
-        }
-        else
-        {
-            return PyObject.None;
-        }
+        var dict = new PyDict();
+        dict["x"] = new PyInt((int)rect.X);
+        dict["y"] = new PyInt((int)rect.Y);
+        dict["width"] = new PyInt((int)rect.Width);
+        dict["height"] = new PyInt((int)rect.Height);
+        return dict;
     }
 
     class PyConsole

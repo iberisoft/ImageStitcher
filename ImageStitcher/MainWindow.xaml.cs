@@ -59,6 +59,12 @@ public partial class MainWindow : Window
 
     private async void StitchImages(object sender, RoutedEventArgs e)
     {
+        if (SourceImageControl1.ImageRoi == null || SourceImageControl2.ImageRoi == null)
+        {
+            MessageBox.Show("Select ROIs on both images.", Title, MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
         var dialog = new SaveFileDialog
         {
             Filter = "*.tif|*.tif"
@@ -110,8 +116,8 @@ public partial class MainWindow : Window
     {
         try
         {
-            resultText = Engine.StitchImages(SourceImageControl1.Image.FilePath, SourceImageControl1.ImageRoi,
-                SourceImageControl2.Image.FilePath, SourceImageControl2.ImageRoi, resultImagePath);
+            resultText = Engine.StitchImages(SourceImageControl1.Image.FilePath, SourceImageControl1.ImageRoi.Value,
+                SourceImageControl2.Image.FilePath, SourceImageControl2.ImageRoi.Value, resultImagePath);
             return true;
         }
         catch (Exception ex)
