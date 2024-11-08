@@ -13,10 +13,11 @@ Copy the latest release to a folder and run `ImageStitcher`.
 
 File `ImageStitcher.dll.config`:
 
-Setting      | Description
--------------|--------------------------
-`PythonPath` | Path to a Python DLL
-`ScriptPath` | Path to the Python script
+Setting         | Description
+----------------|--------------------------
+`PythonPath`    | Path to a Python DLL
+`ScriptPath`    | Path to the Python script
+`PythonModules` | Python module names separated by commas which are used by the script
 
 For example, `PythonPath` can be `C:\Users\<user>\AppData\Local\Programs\Python\Python312\python312.dll`.
 
