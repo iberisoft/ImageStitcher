@@ -40,5 +40,14 @@ namespace ImageStitcher {
                 return ((string)(this["ScriptPath"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PythonModules {
+            get {
+                return ((string)(this["PythonModules"]));
+            }
+        }
     }
 }

@@ -29,10 +29,6 @@ static class Engine
     {
         using (Py.GIL())
         {
-            var console = new PyConsole();
-
-            var globals = new PyDict();
-            globals["console"] = console.ToPython();
             var locals = new PyDict();
             locals["src_path1"] = new PyString(sourceImagePath1);
             locals["roi1"] = ConvertRect(roi1);
@@ -40,7 +36,14 @@ static class Engine
             locals["roi2"] = ConvertRect(roi2);
             locals["res_path"] = new PyString(resultImagePath);
 
-            PythonEngine.Exec(File.ReadAllText(Settings.Default.ScriptPath), globals, locals);
+            using var scope = Py.CreateScope();
+            foreach (var moduleName in Settings.Default.PythonModules.Split(',', StringSplitOptions.RemoveEmptyEntries))
+            {
+                scope.Import(moduleName);
+            }
+            var console = new PyConsole();
+            scope.Variables()["console"] = console.ToPython();
+            scope.Exec(File.ReadAllText(Settings.Default.ScriptPath), locals);
             return console.ToString();
         }
     }
