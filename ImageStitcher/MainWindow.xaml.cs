@@ -13,24 +13,6 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            Engine.Initialize();
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(ex.Message, Title, MessageBoxButton.OK, MessageBoxImage.Error);
-            Application.Current.Shutdown();
-        }
-    }
-
-    private void Window_Closed(object sender, EventArgs e)
-    {
-        Engine.Shutdown();
-    }
-
     private async void OpenImages(object sender, RoutedEventArgs e)
     {
         var dialog = new OpenFileDialog
