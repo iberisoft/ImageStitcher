@@ -1,5 +1,8 @@
 ﻿using Microsoft.Win32;
+using System.IO;
 using System.Windows;
+using System.Windows.Threading;
+using ByteImage = Emgu.CV.Image<Emgu.CV.Structure.Gray, byte>;
 
 namespace ImageStitcher;
 
@@ -11,6 +14,8 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+
+        Engine.PreviewRoiImages += Engine_PreviewRoiImages;
     }
 
     private void Window_Closed(object sender, EventArgs e)
@@ -60,8 +65,7 @@ public partial class MainWindow : Window
         };
         if (dialog.ShowDialog() == true)
         {
-            var result = false;
-            var resultText = "";
+            var errorText = "";
 
             await DoJob(async () =>
             {
@@ -71,16 +75,23 @@ public partial class MainWindow : Window
                 SourceRoiImageView2.Source = null;
                 await Task.Run(() =>
                 {
-                    result = StitchImages(dialog.FileName, out resultText);
-                    if (result)
+                    try
                     {
+                        StitchImages(dialog.FileName);
                         ResultImageControl.Image = new ImageContainer(dialog.FileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        errorText = ex.Message;
                     }
                 });
                 ResultImageControl.LoadImage();
             });
 
-            MessageBox.Show(resultText, Title, MessageBoxButton.OK, result ? MessageBoxImage.Information : MessageBoxImage.Error);
+            if (errorText != "")
+            {
+                MessageBox.Show(errorText, Title, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 
@@ -103,18 +114,20 @@ public partial class MainWindow : Window
         }
     }
 
-    private bool StitchImages(string resultImagePath, out string resultText)
+    private void StitchImages(string resultImagePath) => Engine.StitchImages(SourceImageControl1.Image.FilePath, SourceImageControl1.ImageRoi.Value,
+        SourceImageControl2.Image.FilePath, SourceImageControl2.ImageRoi.Value, resultImagePath);
+
+    private void Engine_PreviewRoiImages(ByteImage image1, ByteImage image2)
     {
-        try
+        var filePath1 = Path.Combine(Path.GetTempPath(), nameof(ImageStitcher) + "1.tif");
+        image1.Save(filePath1);
+        var filePath2 = Path.Combine(Path.GetTempPath(), nameof(ImageStitcher) + "2.tif");
+        image2.Save(filePath2);
+
+        Dispatcher.Invoke(() =>
         {
-            resultText = Engine.StitchImages(SourceImageControl1.Image.FilePath, SourceImageControl1.ImageRoi.Value,
-                SourceImageControl2.Image.FilePath, SourceImageControl2.ImageRoi.Value, resultImagePath);
-            return true;
-        }
-        catch (Exception ex)
-        {
-            resultText = ex.Message;
-            return false;
-        }
+            SourceRoiImageView1.Source = new ImageContainer(filePath1).Image;
+            SourceRoiImageView2.Source = new ImageContainer(filePath2).Image;
+        });
     }
 }
