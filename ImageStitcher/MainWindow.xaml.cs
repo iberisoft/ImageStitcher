@@ -33,6 +33,8 @@ public partial class MainWindow : Window
                 SourceImageControl1.LoadImage();
                 SourceImageControl2.Image = null;
                 SourceImageControl2.LoadImage();
+                SourceRoiImageView1.Source = null;
+                SourceRoiImageView2.Source = null;
                 await Task.Run(() =>
                 {
                     SourceImageControl1.Image = new ImageContainer(dialog.FileNames[0]);
@@ -65,6 +67,8 @@ public partial class MainWindow : Window
             {
                 ResultImageControl.Image = null;
                 ResultImageControl.LoadImage();
+                SourceRoiImageView1.Source = null;
+                SourceRoiImageView2.Source = null;
                 await Task.Run(() =>
                 {
                     result = StitchImages(dialog.FileName, out resultText);
