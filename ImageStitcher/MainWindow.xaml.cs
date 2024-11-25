@@ -13,6 +13,11 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
+    private void Window_Closed(object sender, EventArgs e)
+    {
+        Settings.Default.Save();
+    }
+
     private async void OpenImages(object sender, RoutedEventArgs e)
     {
         var dialog = new OpenFileDialog
