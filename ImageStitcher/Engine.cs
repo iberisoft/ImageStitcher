@@ -78,6 +78,11 @@ static class Engine
             var point2 = keyPoints2[match.TrainIdx].Point;
             return new Vector(point2.X - point1.X, point2.Y - point1.Y);
         }).ToList();
+        return FindOffset(offsets);
+    }
+
+    private static Vector FindOffset(List<Vector> offsets)
+    {
         var offsetsX = offsets.Select(offset => offset.X).ToList();
         offsetsX.Sort();
         var offsetsY = offsets.Select(offset => offset.Y).ToList();
