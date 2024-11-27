@@ -78,7 +78,7 @@ static class Engine
             var point2 = keyPoints2[match.TrainIdx].Point;
             return new Vector(point2.X - point1.X, point2.Y - point1.Y);
         }).ToList();
-        return FindOffset(offsets);
+        return FindOffset2(offsets);
     }
 
     private static Vector FindOffset(List<Vector> offsets)
@@ -88,6 +88,30 @@ static class Engine
         var offsetsY = offsets.Select(offset => offset.Y).ToList();
         offsetsY.Sort();
         return new(offsetsX[offsetsX.Count / 2], offsetsY[offsetsY.Count / 2]);
+    }
+
+    private static Vector FindOffset2(List<Vector> offsets)
+    {
+        var xMin = offsets.Min(offset => offset.X);
+        var yMin = offsets.Min(offset => offset.Y);
+        var xMax = offsets.Max(offset => offset.X);
+        var yMax = offsets.Max(offset => offset.Y);
+        var xCount = (int)(xMax + 1 - xMin) / 10 + 1;
+        var yCount = (int)(yMax + 1 - yMin) / 10 + 1;
+        var histogram = new int[xCount, yCount];
+        offsets.ForEach(offset => ++histogram[(int)((offset.X - xMin) / 10), (int)((offset.Y - yMin) / 10)]);
+        var maxCount = histogram.Cast<int>().Max();
+        for (var i = 0; i < xCount; ++i)
+        {
+            for (var j = 0; j < yCount; ++j)
+            {
+                if (histogram[i, j] == maxCount)
+                {
+                    return new(xMin + i * 10 + 5, yMin + j * 10 + 5);
+                }
+            }
+        }
+        return new(0, 0);
     }
 
     private static (Vector, double) FindOffsetAndAngle(ByteImage image1, ByteImage image2, Vector initialOffset)
