@@ -20,7 +20,7 @@ public partial class ImageControl : UserControl
 
     public bool IsRoiEnabled { get; set; }
 
-    public Rect? ImageRoi { get; private set; }
+    public Rect? ImageRoi { get; set; }
 
     Point? m_StartPoint;
     Point? m_EndPoint;
