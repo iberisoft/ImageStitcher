@@ -6,6 +6,7 @@
     <DockPanel>
         <ToolBar DockPanel.Dock="Top" ToolBarTray.IsLocked="True" DataContext="{x:Static local:Settings.Default}">
             <Button Content="Open" Click="OpenImages" />
+            <Button Content="Swap" Click="SwapImages" />
             <Button Content="Stitch" Click="StitchImages" />
             <Separator />
             <Slider VerticalAlignment="Center" Width="200" Minimum="5" Maximum="250" Value="{Binding Path=Threshold}" />

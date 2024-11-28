@@ -97,6 +97,21 @@ public partial class MainWindow : Window
         }
     }
 
+    private void SwapImages(object sender, RoutedEventArgs e)
+    {
+        var image = SourceImageControl1.Image;
+        SourceImageControl1.Image = SourceImageControl2.Image;
+        SourceImageControl2.Image = image;
+        SourceImageControl1.LoadImage();
+        SourceImageControl2.LoadImage();
+        ResultImageControl.Image = null;
+        ResultImageControl.LoadImage();
+
+        var imageRoi = SourceImageControl1.ImageRoi;
+        SourceImageControl1.ImageRoi = SourceImageControl2.ImageRoi;
+        SourceImageControl2.ImageRoi = imageRoi;
+    }
+
     string m_DefaultTitle;
 
     private async Task DoJob(Func<Task> job)
