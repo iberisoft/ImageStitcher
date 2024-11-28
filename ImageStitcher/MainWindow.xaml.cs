@@ -38,6 +38,8 @@ public partial class MainWindow : Window
                 SourceImageControl1.LoadImage();
                 SourceImageControl2.Image = null;
                 SourceImageControl2.LoadImage();
+                ResultImageControl.Image = null;
+                ResultImageControl.LoadImage();
                 SourceRoiImageView1.Source = null;
                 SourceRoiImageView2.Source = null;
                 await Task.Run(() =>
