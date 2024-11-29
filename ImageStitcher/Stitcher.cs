@@ -90,16 +90,18 @@ static class Stitcher
         return new(offsetsX[offsetsX.Count / 2], offsetsY[offsetsY.Count / 2]);
     }
 
+    public static int OffsetStep { get; set; } = 10;
+
     private static Vector FindOffset2(List<Vector> offsets)
     {
         var xMin = offsets.Min(offset => offset.X);
         var yMin = offsets.Min(offset => offset.Y);
         var xMax = offsets.Max(offset => offset.X);
         var yMax = offsets.Max(offset => offset.Y);
-        var xCount = (int)(xMax + 1 - xMin) / 10 + 1;
-        var yCount = (int)(yMax + 1 - yMin) / 10 + 1;
+        var xCount = (int)(xMax + 1 - xMin) / OffsetStep + 1;
+        var yCount = (int)(yMax + 1 - yMin) / OffsetStep + 1;
         var histogram = new int[xCount, yCount];
-        offsets.ForEach(offset => ++histogram[(int)((offset.X - xMin) / 10), (int)((offset.Y - yMin) / 10)]);
+        offsets.ForEach(offset => ++histogram[(int)((offset.X - xMin) / OffsetStep), (int)((offset.Y - yMin) / OffsetStep)]);
         var maxCount = histogram.Cast<int>().Max();
         for (var i = 0; i < xCount; ++i)
         {
@@ -107,7 +109,7 @@ static class Stitcher
             {
                 if (histogram[i, j] == maxCount)
                 {
-                    return new(xMin + i * 10 + 5, yMin + j * 10 + 5);
+                    return new(xMin + i * OffsetStep + OffsetStep / 2, yMin + j * OffsetStep + OffsetStep / 2);
                 }
             }
         }
@@ -133,7 +135,7 @@ static class Stitcher
 
         var optimizer = new NelderMeadSimplex(1e-10, 1000);
         var initialGuess = Vector<double>.Build.DenseOfArray([initialOffset.X, initialOffset.Y, 0]);
-        var initialPertubation = Vector<double>.Build.DenseOfArray([10, 10, 90]);
+        var initialPertubation = Vector<double>.Build.DenseOfArray([OffsetStep, OffsetStep, 90]);
         var result = optimizer.FindMinimum(ObjectiveFunction.Value(calculateDiff), initialGuess, initialPertubation);
         return (new(result.MinimizingPoint[0], result.MinimizingPoint[1]), result.MinimizingPoint[2]);
     }
