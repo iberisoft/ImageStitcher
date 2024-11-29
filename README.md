@@ -1,6 +1,6 @@
 # Image Stitcher
 
-This tool stitches images based on a Python script.
+This tool stitches images based on OpenCV.
 
 ## Installation
 
