@@ -15,7 +15,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        Engine.PreviewRoiImages += Engine_PreviewRoiImages;
+        Stitcher.PreviewRoiImages += Stitcher_PreviewRoiImages;
     }
 
     private void Window_Closed(object sender, EventArgs e)
@@ -131,10 +131,10 @@ public partial class MainWindow : Window
         }
     }
 
-    private void StitchImages(string resultImagePath) => Engine.StitchImages(SourceImageControl1.Image.FilePath, SourceImageControl1.ImageRoi.Value,
+    private void StitchImages(string resultImagePath) => Stitcher.StitchImages(SourceImageControl1.Image.FilePath, SourceImageControl1.ImageRoi.Value,
         SourceImageControl2.Image.FilePath, SourceImageControl2.ImageRoi.Value, resultImagePath);
 
-    private void Engine_PreviewRoiImages(ByteImage image1, ByteImage image2)
+    private void Stitcher_PreviewRoiImages(ByteImage image1, ByteImage image2)
     {
         var filePath1 = Path.Combine(Path.GetTempPath(), nameof(ImageStitcher) + "1.tif");
         image1.Save(filePath1);

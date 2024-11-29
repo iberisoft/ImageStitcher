@@ -12,7 +12,7 @@ using Point = System.Windows.Point;
 
 namespace ImageStitcher;
 
-static class Engine
+static class Stitcher
 {
     public static void StitchImages(string sourceImagePath1, Rect roi1, string sourceImagePath2, Rect roi2, string resultImagePath)
     {
